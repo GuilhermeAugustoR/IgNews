@@ -1,8 +1,14 @@
 import { AppProps } from "../../node_modules/next/app";
-import '../styles/global.css';
+import { Header } from "../components/Header/index";
+import "../styles/global.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Header />
+      <Component {...pageProps} />
+    </>
+  );
 }
 
 export default MyApp;
