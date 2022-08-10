@@ -1,4 +1,4 @@
-import { useSession, signIn } from "next-auth/client";
+import {signIn, useSession, signOut} from 'next-auth/react'
 import { stripe } from "../../services/strype";
 
 import styles from "./styles.module.scss";
@@ -8,7 +8,7 @@ interface SubscribeNuttonProps {
 }
 
 export function SubscribeButton({ priceId }: SubscribeNuttonProps) {
-  const [session] = useSession();
+  const { data: session } = useSession()
   function handleSubscribe() {
     if (!session) {
       signIn("github");
