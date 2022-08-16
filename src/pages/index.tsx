@@ -1,9 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
-import { GetStaticProps } from "next";
-import Head from "../../node_modules/next/head";
-import { SubscribeButton } from "../components/SubscribeButton/index";
-import { stripe } from "../services/strype";
-import styles from "./home.module.scss";
+import { GetStaticProps } from 'next';
+import Head from 'next/head';
+import { SubscribeButton } from '../components/SubscribeButton';
+import { stripe } from '../services/stripe';
+import styles from './home.module.scss';
 
 interface HomeProps {
   product: {
@@ -18,7 +17,6 @@ export default function Home({ product }: HomeProps) {
       <Head>
         <title>Home | ig.news</title>
       </Head>
-
       <main className={styles.contentContainer}>
         <section className={styles.hero}>
           <span>👏 Hey, welcome</span>
@@ -27,27 +25,24 @@ export default function Home({ product }: HomeProps) {
           </h1>
           <p>
             Get access to all the publications <br />
-            <span>for {product.amount} month</span>
+            <span>for {product.amount} monthly</span>
           </p>
           <SubscribeButton priceId={product.priceId} />
         </section>
-
-        <img src="/images/avatar.svg" alt="Girl Coding" />
+        <img src='/images/avatar.svg' alt='girl coding' />
       </main>
     </>
   );
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const price = await stripe.prices.retrieve("price_1LPQhzJWeRbeN7a6qlbJPAI7", {
-    expand: ["product"],
-  });
+  const price = await stripe.prices.retrieve('price_1KYZoYIvgFOa4HOg5Rb5DCXe', { expand: ['product'] });
 
   const product = {
     priceId: price.id,
-    amount: new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
+    amount: new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
     }).format(price.unit_amount / 100),
   };
 
@@ -55,6 +50,6 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       product,
     },
-    revalidate: 60 * 60 * 24, // 24hours
+    revalidate: 60 * 60 * 24, //24 horas
   };
 };
